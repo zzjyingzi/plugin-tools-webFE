@@ -5,7 +5,17 @@ var quene = {
 	presentation: 0,
 
 	add: function (fn, delay) {
-		this.list.push({fn: fn, delay: delay})
+		if( fn instanceof Array && delay instanceof Array){
+			if(fn.length < delay.length){
+				console.log("You have one or more fn haven't got delay time.");
+				return
+			}
+			for(var i = 0; i < fn.length ; i++){
+				this.list.push({fn: fn[i], delay: delay[i]})
+			}
+		}else if( typeof fn === "function"){
+			this.list.push({fn: fn, delay: delay})
+		}
 	},
 
 	clear: function () {
