@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            background-color: #cccccc;
+        }
+
+        .menu {
+            transform: translate3d(0, 0, 0);
+        }
+
+        .imgContainer {
+            width: 50%;
+            text-align: justify;
+        }
+
+        .images {
+            float: left;
+            padding: 0 10px 10px 10px;
+        }
+
+        .clearfix:after {
+            clear: both;
+            content: "\200B";
+            display: block;
+            height: 0;
+        }
+
+        .imgContainer2 {
+            display: flex;
+            width: 200px;
+        }
+
+        .imgContainer2 div {
+            flex: 1;
+            height: 100px;
+        }
+
+        .imgContainer2 div:nth-child(1) {
+            background-color: red;
+        }
+
+        .imgContainer2 div:nth-child(2) {
+            background-color: white;
+        }
+
+        .imgContainer2 div:nth-child(3) {
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+<section>
+    <input type="button" id="pause" value="pause">
+    <input type="button" id="run" value="run">
+    <input type="button" id="reset" value="reset">
+    <input type="button" id="clear" value="clearFNList">
+</section>
+<script src="src/index.js"></script>
+<script>
+
+	quene.add(function () {
+		console.log("delay 2s")
+	}, 2000);
+	quene.add(function () {
+		console.log("delay 4s")
+	}, 4000);
+	quene.add(function () {
+		console.log("delay 6s")
+	}, 6000);
+	quene.add(function () {
+		console.log(" delay8s")
+	}, 8000);
+
+	
+	quene.run();
+
+
+	document.querySelector("#pause").onclick = function (e) {
+		quene.pause();
+	};
+	document.querySelector("#run").onclick = function (e) {
+		quene.continue();
+	};
+	document.querySelector("#reset").onclick = function (e) {
+		quene.reset();
+	};
+	document.querySelector("#clear").onclick = function (e) {
+		quene.clear();
+	};
+
+</script>
+</body>
+</html>
