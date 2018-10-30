@@ -34,7 +34,7 @@
 		console.log("delay 8s")
 	}, 8000);
 
-    newQueue.run();
+    newQueue.run([function(){},function(){},function(){}],[1000,2000,3000]);
 
 
 	document.querySelector("#pause").onclick = function (e) {
