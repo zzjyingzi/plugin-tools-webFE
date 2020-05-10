@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type">
+    <meta charset="utf-8">
+    <title>搜房招聘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui"/>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <link rel="stylesheet" type="text/css" href="css/css.css"/>
+    <link rel="stylesheet" type="text/css" href="css/animate.css"/>
+</head>
+<body class="search-fj-main clearfix">
+
+<section class="loader" id="loader" style="display: block;">
+    <div class="spinner"></div>
+    <p class="txt">加载中，请稍后...</p>
+</section>
+<!-- /loading -->
+<!--固定栏部分-->
+<aside class="searfj-menu">
+    <ul>
+        <li><img class="menu-k" src="images/searfj-m01.png"></li>
+        <li><i></i>&nbsp;</li>
+        <li><i></i>&nbsp;</li>
+        <li><i></i>&nbsp;</li>
+        <li><img src="images/searfj-m02.png" style="height: 16px;width: auto;"></li>
+        <li><i></i>&nbsp;</li>
+        <li><i></i>&nbsp;</li>
+        <li><i></i>&nbsp;</li>
+        <li><img src="images/searfj-m03.png"></li>
+        <li><i></i>&nbsp;</li>
+        <li><i></i>&nbsp;</li>
+        <li><i></i>&nbsp;</li>
+        <li><img src="images/searfj-m04.png"></li>
+        <li><i></i>&nbsp;</li>
+        <li><i></i>&nbsp;</li>
+        <li><i></i>&nbsp;</li>
+        <li><img src="images/searfj-m05.png"></li>
+    </ul>
+</aside>
+
+
+<div id="pages">
+    <section id="page01" class="page">
+        <div class="searfj-g f14">
+
+        </div>
+    </section>
+
+
+    <!--1.1-->
+    <section id="page02" class="page">
+        <div class="searfj-g f14"></div>
+    </section>
+
+    <!--1.2-->
+    <section id="page03" class="page">
+        <div class="searfj-g f14">
+        </div>
+    </section>
+
+    <!--2.1-->
+    <section id="page04" class="page">
+        <div class="searfj-g f14">
+
+        </div>
+    </section>
+    <!--2.2-->
+    <section id="page05" class="page">
+        <div class="searfj-g f14">
+        </div>
+    </section>
+
+    <!--3.1-->
+    <section id="page06" class="page">
+        <div class="searfj-g rela f12">
+        </div>
+    </section>
+
+    <!--3.2-->
+    <section id="page07" class="page">
+        <div class="searfj-g rela f12">
+        </div>
+    </section>
+    <!--4.1-->
+    <section id="page08" class="page">
+        <div class="searfj-g f14">
+        </div>
+    </section>
+    <!--4.2-->
+    <section id="page09" class="page">
+        <div class="searfj-g f14">
+        </div>
+    </section>
+    <!--5.1-->
+    <section id="page10" class="page">
+        <div class="searfj-g f14">
+        </div>
+    </section>
+
+    <!--5.2-->
+    <section id="page17" class="page">
+        <div class="searfj-g f14">
+        </div>
+    </section>
+
+
+    <section id="page11" class="page">
+        <div class="searfj-g f14">
+        </div>
+    </section>
+    <!--6.1-->
+    <section id="page12" class="page">
+        <div class="f12 mgt32">
+
+        </div>
+    </section>
+
+    <!--6.3-->
+    <section id="page14" class="page">
+        <div class="f12 mgt32">
+
+        </div>
+    </section>
+
+    <!--6.4-->
+    <section  id="page15" class="page">
+        <div class="f12 mgt32">
+        </div>
+    </section>
+
+    <!--热力图-->
+    <section id="page16" class="page">
+        <div class="searfj-g f14 map">
+        </div>
+    </section>
+</div>
+<!--    <script>
+        ;(function(m,d,s,u,l) {u = d.createElement("script");u.id = "seajsnode";u.async = true;u.src = s.base+"sea.js";u.onload=function(){seajs.config(s);seajs.use("main");};l = d.getElementsByTagName("head")[0];l.appendChild(u);})(window, document,{base:"./js/",debug:true});//,"seajs-combo/1.0.1/seajs-combo"
+    </script>-->
+<script type="text/javascript" src="js/op.js"></script>
+<script type="text/javascript">
+
+    /*20150629日修改,重写slide*/
+    function slide() {
+        var loader = document.querySelector("#loader"),
+                pager = document.querySelector("#pages"),
+                searfj = document.querySelector(".searfj-menu"),
+                loadText = loader.querySelector("p");
+
+        if(searfj){searfj.style.display = "block";}
+
+        loader.style.display = "none";
+        pager.style.display = "block";
+        if(loadText)loadText.innerText = "加载中，请稍后...";
+
+
+        var pl = document.querySelectorAll(".page");
+        pl[0].style.display = "block";//default
+        for (var i = 0; i < pl.length; i++) {
+            var sa = new cartoon(pl[i]);
+            sa.init();
+        }
+        doOnOrientationChange();//判断方向
+    }
+
+/*    window.onload = slide;
+    window.onresize = resize;      20150629日屏蔽*/
+    /*20150629日修改结束*/
+
+
+    /*20150629日添加*/
+    document.addEventListener('DOMContentLoaded', function() {
+        slide();
+        doOnOrientationChange();
+    });
+
+    function doOnOrientationChange()
+    {
+        var loader = document.querySelector("#loader"),
+                searfj = document.querySelector(".searfj-menu"),
+                loadText = loader.querySelector("p");
+        switch(window.orientation)
+        {
+            case -90:
+            case 90:
+                //alert('landscape');//水平
+                document.querySelector("#loader").style.display = "block";
+                if(searfj){searfj.style.display = "none";}
+                document.querySelector("#pages").style.display = "none";
+                if(loadText){loadText.innerText = "请竖屏浏览";}
+                break;
+            default:
+                //alert('portrait');//垂直
+                document.querySelector("#loader").style.display = "none";
+                document.querySelector("#pages").style.display = "block";
+                if(searfj){searfj.style.display = "block";}
+                break;
+        }
+    }
+    window.addEventListener('orientationchange', doOnOrientationChange);
+    /*20150629日添加 结束*/
+</script>
+</body>
+</html>
+
+
+<!--搜索文档 searfj-g f12更换为searfj-g f14-->

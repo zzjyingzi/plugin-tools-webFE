@@ -1,0 +1,426 @@
+/*iphone4 20150612修改*/
+@media screen and (max-device-width: 320px) and (max-height: 442px){
+    html{ font-size: 13px;}
+    .searfj-g{height: 84% !important;}
+}
+/*iphone5*/
+@media screen and (max-device-width: 320px) and (min-height: 443px){
+    html{ font-size: 15px;}
+}
+/*android 低高度*/
+@media screen and (min-device-width: 321px) and (max-device-width: 375px) {
+    html{ font-size: 15px;}
+    .circle div.center{font-size: 10px;}/*圆环内*/
+}
+/*android*/
+@media screen and (min-width: 321px) and (max-width: 479px)and (max-height: 568px) {
+    html{ font-size: 15px;}
+    .circle div.center{font-size: 10px;}/*圆环内*/
+}
+/*iphone6*/
+@media screen and (min-width: 321px) and (max-width: 479px) and (min-device-height: 569px) and (max-device-height:667px) {
+    html{ font-size: 15px;}
+    .circle div.center{font-size: 10px;}/*圆环内*/
+}
+/*iphone6 plus*/
+@media screen and (min-width: 321px) and (max-width: 479px) and (min-device-height: 668px) and (max-device-height: 736px) {
+    html{ font-size: 20px;}
+}
+@media screen and (min-width: 480px) and (max-width: 559px){
+    html{ font-size: 24px;}
+}
+@media screen and (min-width: 560px) and (min-height: 668px) and (max-height: 736px){
+    html{ font-size: 28px;}
+}
+/*20150612修改*/
+
+html { font-family: "Microsoft Yahei", Arial, sans-serif; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;}
+body { margin: 0;line-height: 1.5; color: #333333; background-color: white; height: 100%; overflow-x: hidden; -webkit-overflow-scrolling: touch;}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary,div { box-sizing: border-box;}
+audio, canvas, progress, video { display: inline-block; vertical-align: baseline;}
+audio:not([controls]) { display: none; height: 0;}
+[hidden], template { display: none;}
+svg:not(:root) { overflow: hidden;}
+
+a { background: transparent; text-decoration: none; -webkit-tap-highlight-color: transparent; color: #0088cc;}
+a:active { outline: 0;}
+a:active { color: #006699;}
+abbr[title] { border-bottom: 1px dotted;}
+b, strong { font-weight: bold;}/*已不再使用*/
+dfn { font-style: italic;}
+mark { background: #ff0; color: #000;}
+sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline;}
+sup { top: -0.5em;}
+sub { bottom: -0.25em;}
+img { border: 0; vertical-align: middle;}
+hr { -moz-box-sizing: content-box; box-sizing: content-box; height: 0;}
+pre { overflow: auto; white-space: pre; white-space: pre-wrap; word-wrap: break-word;}
+code, kbd, pre, samp { font-family: monospace, monospace; font-size: 1em;}
+
+button, input, optgroup, select, textarea { color: inherit; font: inherit; margin: 0;}
+button { overflow: visible;}
+button, select { text-transform: none;}
+button, html input[type="button"], input[type="reset"], input[type="submit"] { -webkit-appearance: button; cursor: pointer;}
+button[disabled], html input[disabled] { cursor: default;}
+button::-moz-focus-inner, input::-moz-focus-inner { border: 0; padding: 0;}
+input { line-height: normal;}
+input[type="checkbox"], input[type="radio"] { box-sizing: border-box; padding: 0;}
+input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { height: auto;}
+input[type="search"] { -webkit-appearance: textfield; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;}
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration { -webkit-appearance: none;}
+fieldset { border: 1px solid #c0c0c0; margin: 0 2px; padding: 0.35em 0.625em 0.75em;}
+legend { border: 0; padding: 0;}
+textarea { overflow: auto; resize: vertical;}
+optgroup { font-weight: bold;}
+
+
+table { border-collapse: collapse; border-spacing: 0;}
+td, th { padding: 0;}
+
+h1, h2, h3, h4, h5, h6, p, figure, form, blockquote { margin: 0;font-weight: normal;}
+ul, ol, li, dl, dd { margin: 0; padding: 0;}
+ul, ol { list-style: none outside none;}
+h1, h2, h3 { line-height: 2; font-weight: normal;}
+input::-moz-placeholder, textarea::-moz-placeholder { color: #cccccc;}
+input:-ms-input-placeholder, textarea:-ms-input-placeholder { color: #cccccc;}
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder { color: #cccccc;}
+
+* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
+
+
+.left{float: left;}
+.right{float: right;}
+/* loading by css3 */
+.loader{ position: absolute; top: 0; bottom: 0; width: 100%; background-color: #192151;z-index: 9999;}
+.loader .txt{ position: absolute; top: 50%; left: 50%; margin: 35px 0 0 -42px; font-size: 12px; color: #fff;}
+
+
+.clearfix:after{ clear: both; content: "\200B"; display: block; height: 0;}
+.clearfix{ *zoom: 1;}
+
+.center { text-align: center;}
+.fdf3{ color: #df3031;}
+
+.rela{position: relative;}
+
+/*以上截取wap招聘0120，2014-4-1张志杰添加*/
+#pages {
+    width: 100%;
+    height: 100%;
+}
+.page {  width: 100%; height: 100%; overflow: hidden;position: absolute;display: none;min-height: 442px;}
+
+.ilb{display: inline-block}
+
+.f8{font-size: 10px}
+
+
+.f9{font-size: 0.5625rem}
+.f12{font-size: 0.75rem}
+.f13{font-size: 0.8125rem}
+.f14{font-size: 0.875rem;}
+.f15{font-size: 0.9375rem;}
+.f16{font-size: 1rem;}/*文字尺寸标准*/
+.f17{font-size: 1.0625rem;}
+.f18{font-size: 1.125rem;}
+.f19{font-size: 1.1875rem;}
+.ti1 { text-indent:1em;}
+.mt5{margin-top: 0.3125rem}
+.mth5{margin-top: 0.5rem}
+.mth02{margin-top: 0.2rem;}
+.mt2r{margin-top: 2rem}
+.lh12{line-height: 1.2rem}
+
+.search-fj-main{width: 100%;height: 100%;position: absolute;color: #ffffff;background-color:#192151 ;background-size: 100% auto ;}
+.search-fj-f{color: #0e8cf5;background:#192151 0 0 no-repeat fixed;background-size: 100% auto;font-size: 16px;}
+.searfj-m{padding-top: 8px;width: 75%;margin: 0 auto}
+.logo{float: right;width: 4.53rem;margin: 8px 20px 0 0;}
+.searfj-m img{display: block;width: 75%;margin: 0 auto;}
+.searfj-m .subt{height: 1.875rem;line-height: 1.875rem;text-align: center;color: #fffad2;font-size: 1.25rem;text-shadow: 2px 2px 2px #000000;}/*2015-4-8修改*/
+.searfj-m .subt div{position: absolute;top: 0;width: 66.6%;left: 16.65%;height: 100%;border-top: 1px solid #1760a0;border-bottom: 1px solid #1760a0;}/*2015-4-8增加*/
+.searfj-intro{line-height: 1rem;text-align: center;margin-top: 1rem;color: #ffffff;}
+.searfj-btn{
+    display: block;
+    margin:  0 auto;
+    line-height: 40px;text-align: center;font-size: 1rem;
+    border-radius: 4px;height: 40px;
+    background: -webkit-gradient(linear,left top,left bottom,from(#26a3ff),to(#0e8cf5));/*兼容旧版chrome*/
+    background:-webkit-linear-gradient(top,#26a3ff 0%,#0e8cf5 100% );
+    background:-moz-linear-gradient(top,#26a3ff 0%,#0e8cf5 100%);
+    background:linear-gradient(top,#26a3ff 0%,#0e8cf5 100%);
+}
+
+
+
+.bott .searfj-btn{width: 13.3rem;margin-top: 22px;height: 40px;}/*20150619日修改*/
+
+
+a.searfj-btn{color: #ffffff}
+
+/*主页动画*/
+.mainty-baby{
+    position: absolute;
+    z-index: -1;
+    left: 1.7rem;
+    top: -0.4rem;
+    -webkit-animation: baby1 0.6s linear;
+    -moz-animation: baby1 0.6s linear;
+    -ms-animation: baby1 0.6s linear;
+    -o-animation: baby1 0.6s linear;
+    animation: baby1 0.6s linear;
+}
+
+.mainty-f{
+    -webkit-animation:les 0.2s linear;
+    -moz-animation:les 0.2s linear;
+    animation:les 0.2s linear;
+}
+@-webkit-keyframes baby1{
+    0%{
+        -webkit-transform: translateX(-30px) scale(0.5);
+        -moz-transform: translateX(-30px) scale(0.5);
+        -ms-transform: translateX(-30px) scale(0.5);
+        -o-transform: translateX(-30px) scale(0.5);
+        transform: translateX(-30px) scale(0.5);
+        opacity: 0;}
+    100%{
+        -webkit-transform: translateX(0px) scale(1);
+        -moz-transform: translateX(0px) scale(1);
+        -ms-transform: translateX(0px) scale(1);
+        -o-transform: translateX(0px) scale(1);
+        transform: translateX(0px) scale(1);
+        opacity: 1;}
+}
+@-webkit-keyframes les{
+    0%{-webkit-transform:rotate(5deg);-moz-transform:rotate(5deg);transform:rotate(5deg);}
+    20%{-webkit-transform:rotate(-4deg);-moz-transform:rotate(-4deg);transform:rotate(-4deg);}
+    40%{-webkit-transform:rotate(3deg);-moz-transform:rotate(3deg);transform:rotate(3deg);}
+    60%{-webkit-transform:rotate(-2deg);-moz-transform:rotate(-2deg);transform:rotate(-2deg);}
+    80%{-webkit-transform:rotate(1deg);-moz-transform:rotate(1deg);transform:rotate(1deg);}
+    100%{-webkit-transform:rotate(0deg);-moz-transform:rotate(0deg);transform:rotate(0deg);}
+}
+.mainty-hou{
+    -webkit-animation: flo 2.5s infinite linear 0.4s;
+}
+@-webkit-keyframes flo{
+    0%{-webkit-transform: translateY(0)}
+    25%{-webkit-transform: translateY(2px)}
+    50%{-webkit-transform: translateY(0px)}
+    75%{-webkit-transform: translateY(-2px)}
+    100%{-webkit-transform: translateY(0)}
+}
+/*首页动画 结束*/
+/*第二页动画*/
+.searfj-pet img{
+    -webkit-animation: flo 2.5s infinite linear 0.4s;
+}
+@-webkit-keyframes flo{
+    0%{-webkit-transform: translateY(0)}
+    25%{-webkit-transform: translateY(2px)}
+    50%{-webkit-transform: translateY(0px)}
+    75%{-webkit-transform: translateY(-2px)}
+    100%{-webkit-transform: translateY(0)}
+}
+.searfj-g{
+    -webkit-animation: shower 2s 1 linear;
+    -moz-animation: shower 2s 1 linear;
+    animation: shower 2s 1 linear;
+}
+@-webkit-keyframes shower{
+    0%{opacity: 0;}
+    100%{opacity: 1;}
+}
+/*第二页动画结束*/
+/*3.1和3.2动画*/
+.p31-img3{width: 93%; color: #0d8ef4;}
+.p31-img4{position: absolute;left: 4.2rem;bottom: 5rem;width: 4.15rem}
+
+
+/*3.1和3.2动画结束*/
+.searfj-btn a,.searfj-btn2 a{color: #ffffff;}
+
+.searfj-btn2{
+    margin:  0.7rem auto 0;
+    line-height: 29px;text-align: center;font-size: 0.8125rem;/*20150612b*/
+    width: 10.9rem;border-radius: 4px;height: 2.18rem;
+    background: -webkit-gradient(linear,left top,left bottom,from(#26a3ff),to(#0e8cf5));/*兼容旧版chrome*/
+    background:-webkit-linear-gradient(top,#26a3ff 0%,#0e8cf5 100%);
+    background:-moz-linear-gradient(top,#26a3ff 0%,#0e8cf5 100%);
+    background:linear-gradient(top,#26a3ff 0%,#0e8cf5 100%);
+}
+
+
+.searfj-mainty01{margin-top: 1.8rem;position: relative;}/*间距*/
+
+/*侧栏*/
+.searfj-menu{position: fixed;left: 1.2rem;top: 25px;display: none;z-index: 9999;}/*20150601*/
+
+
+
+.searfj-menu li{text-align: center;vertical-align: middle;line-height: 1rem;}
+.searfj-menu li:nth-child(n+1) img{position: relative;left: -3px;bottom: -2.5px;}
+.searfj-menu i{display: inline-block;width: 4px;height: 4px;border-radius: 4px;background-color: #94e6ff;}
+.searfj-menu img{width: 1.33rem; }
+.menu-gr{-webkit-animation:menu-s 0.5s linear;}/*状态栏图标放大动画*/
+.menu-k{-webkit-transform: scale(1.9);}/*状态栏图标放大动画*/
+@-webkit-keyframes menu-si{
+    0%{-webkit-transform: scale(1);}
+    100%{-webkit-transform: scale(2);}
+}
+@-webkit-keyframes menu-so{
+    0%{-webkit-transform: scale(2);}
+    100%{-webkit-transform: scale(1);}
+}
+/*page2*/
+.searfj-g{position: relative;width: 82.5%;height: 88%;min-height: 370px;border: 2px solid #0e8cf5;border-radius: 0.2rem;margin-left: 11.875%;margin-top: 2rem;}
+
+
+
+
+
+
+/*完全一致带来的累赘尺寸*/
+.searfj-art{margin-top: 1.5rem;line-height: 1.5rem;}
+.searfj-ss {margin-top: 1rem}
+.searfj-pet {margin-top: 1.78rem}
+.searfj-art.lh12{line-height: 1.2rem}
+/*page3*/
+
+/*page4*/
+.fcb{color: #0e8cf5;}
+.sfj-anno{position: absolute;left: 0;bottom: 0.3rem;}
+.scaleup{
+    -webkit-animation: su 1.5s linear;
+    -mzo-animation: su 1.5s linear;
+    animation: su 1.5s linear;
+}
+@-webkit-keyframes su{
+    0%{
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        transform: scale(1);
+    }
+    100%{
+        -webkit-transform: scale(0.01);
+        -moz-transform: scale(0.01);
+        transform: scale(0.01);
+    }
+}
+
+
+
+
+/*主要缩放和位移*/
+.sctr1{
+    -webkit-transform-origin: 50% 10%;
+    -webkit-animation: bscale1 0.5s linear 0.1s;
+    -moz-animation: bscale1 0.5s linear 0.1s;
+    -ms-animation: bscale1 0.5s linear 0.1s;
+    -o-animation: bscale1 0.5s linear 0.1s;
+    animation: bscale1 0.5s linear 0.1s;
+}
+@-webkit-keyframes bscale1{
+    0%{
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        -o-transform: scale(1);
+        transform: scale(1);
+        top: 0;
+    }
+    100%{
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -ms-transform: scale(0);
+        -o-transform: scale(0);
+    }
+}
+.sctr2{
+    -webkit-transform-origin: 50% 95%;
+    -webkit-animation: bscale2 0.5s linear;
+    -moz-animation: bscale2 0.5s linear;
+    -ms-animation: bscale2 0.5s linear;
+    -o-animation: bscale2 0.5s linear;
+    animation: bscale2 0.5s linear;
+}
+@-webkit-keyframes bscale2{
+    0%{
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        -o-transform: scale(1);
+        bottom: 0;
+    }
+    100%{
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -ms-transform: scale(0);
+        -o-transform: scale(0);
+        transform: scale(0);
+        bottom: 0;
+    }
+}
+
+/*菜单操作*/
+.scmenu1{-webkit-animation:mscale1 1 0.5s linear;}
+@-webkit-keyframes mscale1{
+    0%{-webkit-transform: scale(1);}
+    100%{-webkit-transform: scale(1.9);}
+}
+
+.scmenu2{-webkit-animation: mscale2 1 0.5s linear;}
+@-webkit-keyframes mscale2{
+    0%{-webkit-transform: scale(1.9);}
+    100%{-webkit-transform: scale(1);}
+}
+
+
+/*菜单上移*/
+.scmenut1{-webkit-animation: mscale3 0.5s linear;}/*调用class*/
+@-webkit-keyframes mscalet1{/*第一个图像*/
+    0%{transform: translateY(0);}
+    100%{transform: translateY(-65px);}
+}
+.scmenut2{-webkit-animation: mscale3 0.5s linear;}
+@-webkit-keyframes mscalet2{/*第二个图像*/
+    0%{transform: translateY(0);}
+    100%{transform: translateY(-130px);}
+    }
+.scmenut3{-webkit-animation: mscale3 0.5s linear;}
+@-webkit-keyframes mscalet3{/*第三个图像*/
+    0%{transform: translateY(0);}
+    100%{transform: translateY(-195px);}
+}
+.scmenut4{-webkit-animation: mscale3 0.5s linear;}
+@-webkit-keyframes mscalet4{/*第四个图像*/
+    0%{transform: translateY(0);}
+    100%{transform: translateY(-260px);}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+#header{position: absolute;right: 0;top: 0;z-index: 9999;display: none;}
+
+.fc3{color: #ffcc33;}
+.f17{font-size: 17px;}
+.pdX2{padding: 0 2px;}
+.mgt32{margin-top: 2.83rem;}
+.ffff{color: #ffffff;}
+
+
+#page16{overflow: hidden;}
+
+
+
+.ffcd5b{color: #ffcd5b;}

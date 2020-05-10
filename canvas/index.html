@@ -1,0 +1,470 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>canvas实验</title>
+    <style type="text/css">
+        #bubble {
+            background-color: #000000;
+           /* background-image: url("images/1-1209131A223.jpg");
+            background-position: -700px 0;*/
+           /* background:-webkit-gradient(linear,left top,left bottom,from(#e7f8e2),colorstop(#f0cffa),to(#f4dcfc));
+            background:-webkit-linear-gradient(top,#e7f8e2 0%,#f0cffa 90%,#f4dcfc 100%);
+            background:-moz-linear-gradient(top,#e7f8e2 0%,#f0cffa 90%,#f4dcfc 100%);
+            background:-o-linear-gradient(top,#e7f8e2 0%,#f0cffa 90%,#f4dcfc 100%);
+            background:-ms-linear-gradient(top,#e7f8e2 0%,#f0cffa 90%,#f4dcfc 100%);
+            background:linear-gradient(top,#e7f8e2 0%,#f0cffa 90%,#f4dcfc 100%);*/
+        }
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .abb {
+            position: relative;
+            /*canvas绘图以inline-block的形式存在*/
+        }
+        .abb div{
+            position: absolute;
+            height: 55px;
+            width: 640px;
+            left: 0;
+            bottom: 0;
+            text-align: center;
+            background-color: #3d3d3d;
+            z-index: 999;
+        }
+        .abb div span{
+            display: inline-block;
+            width: 126px;
+            height: 80px;
+            position: relative;
+            top: -37px;
+            border-radius: 67px 67px 0 0;
+            background-color: #3d3d3d;
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body>
+<section class='abb'>
+    <canvas style="clear: both;" id="bubble" width="640" height="960">
+        升级你的浏览器来支持canvas绘图！如果是IE请使用chrome、firefox、safari或者opera。
+    </canvas>
+    <div><span></span></div>
+</section>
+<script>
+//*为可调项
+var     clientX = 0,    //*初始横坐标*
+        clientY = 0,    //*初始纵坐标
+
+        vy = 30,        //*初始动量,初始速度vx根据vy固定比例变化，在内部定义
+        fream = 30,     //*初始帧数30毫秒ms/帧
+        ryp = 0.5,rxp,  //*初始减速值,rxp不可调
+
+        baseR = 30,     //*圆基础半径px
+        maxR = 70,      //*膨胀最大尺寸
+        rc = 30,        //初始半径，等于基础半径baseR尺寸
+        step = 60,      //半径变化步数，可控制气泡大小
+
+        sha,
+
+        pos = [],       //存储每个气泡的位置和尺寸等信息
+        count = 10,      //*每count帧发出一个气泡
+        time = 0,       //时间计数,总时间 = time * 79
+        nf = /^\d+$/,   //非负整数
+
+        //弹性
+        elasticity = 1,
+
+        text =["边说边坐","咨询活动","预订场地","天气预报","设置"];       //写入的文本
+
+//元素
+var ele = document.getElementById("bubble");
+var context = ele.getContext('2d');
+context.translate(ele.width/2,ele.height);//变更原点为宽度中心，高度底部
+
+
+//rayAngle函数，返回正切值，a,b为基础点,为顺时针，即arc为false时方向
+//乘以正切值为通过y轴求得x轴变化，除以则通过x轴获得y轴
+function rayAngle(x,y,a,b){
+    if( a == "" || b == ""){a = b = 0;}//若无a,b值，则以原点为基础点
+    if(x != 0){
+        return (x - a)/(y - b);
+    }else{
+        return 0;
+    }
+}
+
+//随机值函数,返回-num到num之间的随机值（不包含num）
+function round(num){
+    if(num == null || typeof num != "number")num = 1;
+    return num * (1 -  2*Math.random());//随机函数在中心和轴临近位置产生的几率大，不均匀
+}
+
+//返回区间x1-x2(不包括x2)之间的随机值,x1,x2值大小可以不确定
+function rand(x1,x2){
+    if(x1 === x2)return;
+    if(x2 < x1){
+        var ext = x2 ;
+        x2 = x1 ;
+        x1 = ext;
+    }
+    return x1 + (x2 - x1) * Math.random();
+}
+
+//输入两个坐标,返回两点间距
+function hypotenuse(x1,y1,x2,y2){
+    return Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+}
+
+//随机取整
+function floor(x1,x2){
+    var a = rand(x1,x2);
+    return Math.floor(a)
+}
+
+
+
+
+
+
+
+//绘制椭圆，这种方法比前一个贝塞尔方法精确度高，但效率稍差
+function bezierEllipse(context, x, y, a, b)
+{
+    var k = .5522848,
+            ox = a * k, // 水平控制点偏移量
+            oy = b * k; // 垂直控制点偏移量
+
+    context.beginPath();
+    //从椭圆的左端点开始顺时针绘制四条三次贝塞尔曲线
+    context.moveTo(x - a, y);
+    context.bezierCurveTo(x - a, y - oy, x - ox, y - b, x, y - b);
+    context.bezierCurveTo(x + ox, y - b, x + a, y - oy, x + a, y);
+    context.bezierCurveTo(x + a, y + oy, x + ox, y + b, x, y + b);
+    context.bezierCurveTo(x - ox, y + b, x - a, y + oy, x - a, y);
+    context.closePath();
+
+
+
+    var LightGradient = context.createRadialGradient(x, y, 0, x,y,a);
+    LightGradient.addColorStop(0, "rgba(255,255,255,1)");
+    LightGradient.addColorStop(0.1, "rgba(255,255,255,0.9)");
+    LightGradient.addColorStop(0.3, "rgba(255,255,255,0.2)");
+    LightGradient.addColorStop(0.6, "rgba(255,255,255,0)");
+
+    context.fillStyle = LightGradient;
+    context.fillRect(x-a,y-b,2*a,2*b);
+
+    //context.rotate(Math.PI/8); //旋转
+
+    context.save();
+    context.stroke();
+}
+
+
+function draw(context,x,y,r,vx,vy,ryp,txt,color,opacity){
+    if(color === undefined || color === null || color ===""){color = "255,255,255";} //缺省颜色为百色
+    if(opacity === undefined || opacity === null || opacity ===""){opacity = 1;}//默认透明度1
+    var col = "rgba(" + color + ",";
+    // console.log(col);
+    //需要添加的：rgba的颜色参数和透明度参数
+    // 开始路径绘制
+    //外圆
+    context.moveTo(x + r,y);
+    context.arc(x ,y,r,0,Math.PI*2,true); //圆
+
+    context.lineWidth = 0; // 设置线宽
+    context.strokeStyle = "rgba(255,255,255,0)"; // 设置线的颜色
+
+    context.shadowColor = "#000000";
+    context.shadowOffsetX = 0;
+    context.shadowOffsetY = 0;
+    context.shadowBlur = 3;
+
+    var bubbleGradient = context.createRadialGradient(x, y, r*0.75, x,y,r);
+    bubbleGradient.addColorStop(0, col +"0)");
+    bubbleGradient.addColorStop(0.2, col + 0.1*opacity +")");
+    bubbleGradient.addColorStop(0.6, col + 0.4*opacity +")");
+    bubbleGradient.addColorStop(0.8, col + 0.7*opacity +")");
+    bubbleGradient.addColorStop(0.95, col + opacity +")");
+    bubbleGradient.addColorStop(1, col  + "0)");
+
+    //context.globalAlpha = 0.9;//全局透明
+    context.fillStyle = bubbleGradient;
+    context.fillRect(x-r,y-r,2*r,2*r);
+
+    //内圆
+    context.moveTo(x + 0.8*r,y);
+    context.arc(x,y,0.8*r,0,Math.PI*2,true);
+
+    var shadow = context.createRadialGradient(x,y,0.5*r,x,y,0.8*r);
+    shadow.addColorStop(0,col + "0)");
+    shadow.addColorStop(0.6,col + 0.05*opacity +")");
+    shadow.addColorStop(0.8,col + 0.1*opacity +")");
+    shadow.addColorStop(1,col + "0)");
+    context.globalAlpha = 1; //透明效果，因渐变透明无法使用
+    context.fillStyle = shadow;
+    context.fillRect(x-0.8*r,y-0.8*r,1.6*r,1.6*r);
+
+
+    //反光左上
+    var backShadow = context.createRadialGradient( x ,y,0.53*r,x,y,0.6*r);
+    backShadow.addColorStop(0,col +"0)");
+    backShadow.addColorStop(0.2,col + 0.05*opacity +")");
+    backShadow.addColorStop(0.8,col + 0.08*opacity +")");
+    backShadow.addColorStop(1,col +"0)");
+    context.moveTo(x + 0.65*r,y);
+    context.arc(x,y,0.65*r,Math.PI*3/5,Math.PI,true);
+    context.fillStyle = backShadow;
+    context.fillRect(x - 0.55*r ,y - 0.55*r,0.55*r,0.55*r);
+    //反光右下
+    var backButtomShadow = context.createRadialGradient( x ,y,0.50*r,x,y,0.65*r);
+    backButtomShadow.addColorStop(0,col +"0)");
+    backButtomShadow.addColorStop(0.2,col + 0.08*opacity +")");
+    backButtomShadow.addColorStop(0.8,col + 0.15*opacity +")");
+    backButtomShadow.addColorStop(1,col +"0)");
+    context.moveTo(x + 0.65*r,y);
+    context.arc(x,y,0.65*r,Math.PI*5/3,2*Math.PI,true);
+    context.fillStyle = backButtomShadow;
+    context.fillRect(x ,y,0.61*r,0.6*r);
+
+
+
+
+
+
+    // 设置字体
+    if(txt === undefined || txt === null){txt = "";}//缺省文本，可删除
+    context.font = "Bold 25px microsoft YAHEI";
+    // 设置对齐方式
+    context.textAlign = "center";
+    // 设置填充颜色
+    context.fillStyle = "#ffffff";
+    // 设置字体内容，以及在画布上的位置
+    context.fillText(txt,x,y);
+
+
+    //高光
+    bezierEllipse(context,x-r/2,y-r/2,20,10);//统一光源尺寸
+    context.save();
+
+    context.globalAlpha=1;//全局透明，可调
+
+    //返回当前的信息
+    return {
+        xp:x,           //x坐标
+        yp:y,           //y坐标
+        rp:r,           //半径
+        vy:vy,          //y速度
+        vx:vx,          //x速度，仅作方向参考，不做实际尺寸
+        ryp:ryp,        //减速值
+        txt:txt,        //写入文本
+        color:color,    //颜色
+        opacity:opacity //透明度
+    };
+}
+
+
+
+
+//基础绘制函数
+function move(context,x,y,r){
+    var vx;//初始x动量
+
+    //气泡生成器
+    if(nf.test(time/count) && time < 60){//按时间生成新气泡
+        var tim = time/count;
+
+        /*通过x，y初始比例余弦控制吐泡方向
+        * 随机生成半径大小，并按半径比例赋予初始动量
+        * 暂定每次生成6个，如果随机生成数量，将不能定制生成特殊气泡，暂不使用随机数量
+        * 以下数字将控制核心内容
+        * */
+        var sx,sy,sr,syv,sxv,cou = 5,cre;//cou为每次生成气泡数量
+        var sco1,sco2,sco3,sco,opa;
+
+        //定制气泡内容
+//        if(tim == 1||tim == 2 || tim == 3 || tim == 4 || tim == 5){
+//            var qh;
+//            switch (tim){
+//                case 1:qh = draw(context,0.1361,-1,47,0,28,ryp,text[0],"142,139,251",0.8);break;
+//                case 2:qh = draw(context,-0.112,-1,47,0,28,ryp,text[1],"29,230,148",0.6);break;
+//                case 3:qh = draw(context,-0.2857,-1,97,0,23,ryp,text[2],"239,55,235",0.8);break;
+//                case 4:qh = draw(context,0.2946,-1,60,0,24,ryp,text[3],"251,186,92",0.8);break;
+//                case 5:qh = draw(context,-0.0631,-1,46,0,18,ryp,text[4],"254,127,68",0.8);break;
+//
+//                /*终点
+//                case 1 :var q1 = draw(context,110,-808,87,0,0,ryp,"边说边做");pos.push(q1);break;
+//                case 2:var q2 = draw(context,-84,-750,87,0,0,ryp,"资讯活动");pos.push(q2);break;
+//                case 3:var q3 = draw(context,-160,-560,127,0,0,ryp,"场地预订");pos.push(q3);break;
+//                case 4:var q4 = draw(context,165,-560,90,0,0,ryp,"天气预报");pos.push(q4);break;
+//                case 5:var q5 = draw(context,-24,-380,86,0,0,ryp,"设置");pos.push(q5);break;
+//                */
+//            }
+//
+//            pos.push(qh);
+//        }
+        while(cou){
+            sx = round(1);              //x坐标生成-1～1之间的随机数值
+            sy = -1.2;                  //y坐标1.2可调，倾斜角度
+            sr = rand(r * 0.2,r);       //半径最小半径
+            syv = rand(vy * 0.35,vy);   //动量随机(0.35-1)之间
+            sxv = 0 - syv * rayAngle(sx,sy,0,0); //从sx位置判断初始动量的正负
+            //色彩
+            sco1 = floor(0,255);
+            sco2 = floor(0,255);
+            sco3 = floor(0,255);
+            sco  = Math.random();
+            opa  = rand(0.2,0.6);
+
+            if(sco < 0.33){
+                sco1 = 255;
+            }else if(sco>0.67){
+                sco3 = 255;
+            }else{
+                sco2 = 255;
+            }
+            sco = sco1 + "," + sco2 + "," + sco3;
+            //draw(context,x,y,r,vx,vy,ryp,text)（content、x坐标，y坐标，半径，x速度，y速度，y减速值，文本）
+            cre = draw(context,sx,sy,sr,sxv,syv,ryp,'',sco,opa);//位置、大小需随机生成
+            pos.push(cre);
+            cou--;
+        }
+        //将定制的，有内容的放置顶层（在末尾绘制）
+        var exchange;
+        for(var pl = 0 ; pl < pos.length ; pl ++){
+            if(pos[pl].txt !== ""){
+
+                exchange = pos[pl];
+                pos.splice(pl,1);
+                pos.push(exchange);
+            }
+        }
+    }
+
+    //旧气泡继承
+    if(pos.length){
+        context.clearRect(-ele.width/2,-ele.height,ele.width,ele.height);
+        for(var i = 0 ; i < pos.length ; i ++){
+            vx = - pos[i].vy * rayAngle(pos[i].xp,pos[i].yp,0,0);//所有坐标相对于原点，注：y轴上为正，x轴方向右为正
+
+            //获取并设定当前x轴方向
+            if((pos[i].vx < 0 && vx > 0)||(pos[i].vx > 0 && vx < 0)){
+                vx = 0 - vx;
+            }
+
+            //画板范围外，弹性碰撞墙壁
+            if(pos[i].xp > (ele.width/2 - pos[i].rp) || pos[i].xp < (-ele.width/2 + pos[i].rp)){
+                vx = 0 - vx;        //反向
+            }
+
+            //球体弹性碰撞
+            /*for(var j = 0 ; j < pos.length ; j ++ ){
+                if(j == i)continue;
+                if(hypotenuse(pos[i].xp,pos[i].yp,pos[j].xp,pos[j].yp) <= (pos[i].rp + pos[j].rp)){
+                    pos[i].vy = (pos[i].vy(pos[i].rp - pos[j].rp) + 2 * pos[j].rp * pos[j].vy)/(pos[i].rp + pos[j].rp);
+                    pos[j].vy = (pos[j].vy(pos[j].rp - pos[i].rp) + 2 * pos[i].rp * pos[i].vy)/(pos[i].rp + pos[j].rp);
+                }
+            }*/
+
+
+
+            //是否有速度
+            if(pos[i].vy > 0 ){
+                //根据初始角度计算弹射速度，x，y变化是曲线变化，更适合气泡，因为水有阻力，x方向速率会缓慢趋向于0
+
+                pos[i].yp = pos[i].yp - pos[i].vy;     //y方向平移
+                pos[i].vy = pos[i].vy - pos[i].ryp;    //y方向减速
+
+
+                pos[i].xp = pos[i].xp + vx;//x方向双向平移,由vx正负控制方向,正为右向
+
+                //半径变化
+                pos[i].rp =  pos[i].rp + (maxR - baseR)/step;//步数，可控气泡大小
+
+            }else{                          //超出界限或者y速度为0（或负值）将对象至于静止状态
+                pos[i].vy = 0;              //碰撞没有Y方向的负方向
+            }
+
+            //渲染
+            //draw(context,x,y,r,vx,vy,ryp,text)（congtent、x坐标，y坐标，半径，x速度，y速度，y减速值，文本）
+            pos[i] = draw(context,pos[i].xp,pos[i].yp,pos[i].rp,vx,pos[i].vy,pos[i].ryp,pos[i].txt,pos[i].color,pos[i].opacity);
+        }
+    }
+
+
+    time = time +1;//计数器 时间 = time * ream
+
+    var s = check(pos);
+
+    if(s === 0){     //当产生 n/count 个气泡时，停止，时间为 n*fream
+        clearInterval(mov); //停止动作
+        sha = setInterval("shock()",200);//200为抖动频率
+    }
+}
+
+function check(pos){
+     var s = 0;
+    for(var i = 0 ; i < pos.length ; i++){
+        if(pos[i].vy !== 0){
+            s = 1;
+        }
+    }
+    return s;
+}
+
+//抖动
+function shock(){
+    var shx,shy,vx = 0;
+    context.clearRect(-ele.width/2,-ele.height,ele.width,ele.height);
+    for(var sh = 0 ; sh < pos.length;sh ++){
+        shx = pos[sh].xp + rand(-0.5,0.5);
+        shy = pos[sh].yp + rand(-0.5,0.5);
+        draw(context,shx,shy,pos[sh].rp,vx,pos[sh].vy,pos[sh].ryp,pos[sh].txt,pos[sh].color,pos[sh].opacity);
+    }
+}
+
+
+//绑定事件
+ele.onclick = function(event){
+    var x = event.x,//支持IE需进一步规划
+        y = event.y;
+
+    for(var i = 0 ; i < pos.length ; i ++){
+        //判断点击是否在气泡范围内，可限定气泡尺寸
+        if(hypotenuse((x-ele.width/2),(y-ele.height),pos[i].xp,pos[i].yp) < pos[i].rp && pos[i].txt !== "" && pos[i].txt !== undefined && pos[i].txt != null){ //在圆范围内,文本内容不为空，
+            context.clearRect(-ele.width/2,-ele.height,ele.width,ele.height);
+            clearInterval(mov);
+            clearInterval(sha);
+            var magnify = setInterval(function(){
+                pos[i].rp = pos[i].rp + 50;//30为半径扩大增量，可调
+                context.clearRect(-ele.width/2,-ele.height,ele.width,ele.height);
+
+                //draw(context,x,y,r,vx,vy,ryp,text)（congtent、x坐标，y坐标，半径，x速度，y速度，y减速值，文本）
+                draw(context,pos[i].xp,pos[i].yp,pos[i].rp,0,0,0,pos[i].txt,pos[i].color,pos[i].opacity);
+                if(pos[i].rp > ele.height * 1.5){ //尺寸大于外框将停止
+                    clearInterval(magnify);
+                    //ele.style.display = "none";//隐藏层
+                }
+                window.location = "http://news.163.com";//跳转页面
+            },fream);
+        break;
+        }
+    }
+};
+
+var mov = setInterval("move(context,clientX ,clientY,rc)",fream);
+
+//重力感应模块
+window.onorientationchange = function(e){
+    for(var i = 0 ;i < pos.length ; i++){
+        if(pos[i].rp >= 0.2*maxR){//尺寸大的将获得x方向动量
+
+        }
+    }
+}
+</script>
+</body>
+</html>
